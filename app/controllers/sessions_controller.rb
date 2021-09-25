@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
       log_in user
       redirect_to user
     else
+      # ToDo: エラーメッセージを作成する
       render 'new'
     end
   end
@@ -16,6 +17,4 @@ class SessionsController < ApplicationController
     log_out
     redirect_to root_url
   end
-  
-  
 end
