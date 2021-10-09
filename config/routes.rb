@@ -12,10 +12,15 @@ Rails.application.routes.draw do
   post 'follow/:id' => 'relationships#follow', as: 'follow' 
   post 'unfollow/:id' => 'relationships#unfollow', as: 'unfollow' 
   get '/search', to: 'searchs#search'
+
   resources :users do
     member do
       get :following, :followers
     end
   end
-  resources :tweets, only: [:create, :edit, :update, :destroy]
+
+  resources :tweets do
+    resource :favorites, only: [:create, :destroy]
+  end  
+
 end

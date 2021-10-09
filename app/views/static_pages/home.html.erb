@@ -37,6 +37,23 @@
                 <li id="tweet-<%= tweet.id %>">
                     <span class="user"><%= link_to tweet.user.name, tweet.user %></span>
                     <span class="content"><%= tweet.content %></span>
+
+                    <span>
+                        <% if tweet.favorited_by?(current_user) %>
+                          <p>
+                            <%= link_to tweet_favorites_path(tweet), method: :delete do %>
+                              ♥<%= tweet.favorites.count %> いいね
+                            <% end %>
+                          </p>
+                        <% else %>
+                          <p>
+                            <%= link_to tweet_favorites_path(tweet), method: :post do %>
+                              ♡<%= tweet.favorites.count %> いいね
+                            <% end %>
+                          </p>
+                        <% end %>
+                    </span>
+
                     <span class="timestamp">
                         投稿日 <%= time_ago_in_words(tweet.created_at) %> 前
                         <% if current_user?(tweet.user) %>
