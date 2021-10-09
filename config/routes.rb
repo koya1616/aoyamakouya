@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   delete  'logout' => 'sessions#destroy'
   post 'follow/:id' => 'relationships#follow', as: 'follow' 
   post 'unfollow/:id' => 'relationships#unfollow', as: 'unfollow' 
+  get '/search', to: 'searchs#search'
   resources :users do
     member do
       get :following, :followers
