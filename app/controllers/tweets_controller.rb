@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
     before_action :logged_in_user, only: [:create, :destroy, :edit, :update]
-    before_action :correct_user,   only: [:destroy, :edit, :update]
+    before_action :correct_user,   only: [:destroy, :show, :edit, :update]
 
     def create
         @tweet = current_user.tweets.build(tweet_params)
@@ -10,6 +10,13 @@ class TweetsController < ApplicationController
         else
             render 'static_pages/home'
         end
+    end
+    
+    def show
+        @tweet_new = Tweet.new
+        @tweet = Tweet.find(params[:id])
+        @user = @tweet.user
+        @tweet_comment = Comment.new  
     end
 
     def edit

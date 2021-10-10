@@ -6,6 +6,7 @@ class User < ApplicationRecord
     has_many :following_user, through: :follower, source: :followed
     has_many :follower_user, through: :followed, source: :follower
     has_many :favorites, dependent: :destroy
+    has_many :comments, dependent: :destroy
 
     #データを保存する前にメアドを小文字にする。
     before_save { email.downcase! } 

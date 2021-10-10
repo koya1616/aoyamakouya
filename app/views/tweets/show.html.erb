@@ -1,0 +1,107 @@
+<% if logged_in? %>
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="user_info">
+        <h1><%= current_user.name %></h1>
+        <p><%= link_to "プロフィールを見る", current_user %></p>
+        <p><%= current_user.tweets.count %> ツイート </p>
+      </section>
+      <section class="tweet_form">
+        <%= form_for(@tweet) do |f| %>
+          <% if @tweet.errors.any? %>
+            <div id="error_explanation">
+              <div class="alert alert-danger">
+                <%= @tweet.errors.count %>つのエラーがあります。
+              </div>
+              <ul>
+                <% @tweet.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div class="field">
+            <%= f.text_area :content, placeholder: "こんにちは" %>
+          </div>
+          <%= f.submit "投稿", class: "btn btn-primary" %>
+        <% end %>
+      </section>
+    </aside>
+
+    <div class="col-md-8 offset-md-1">
+      <h2>tweet detail</h2>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="fix-tb">
+              <%= link_to user_path(@tweet.user.id) do %>
+              <%= @tweet.user.name %>
+              <% end %>
+            </td>
+            <td class="fix-body"><%= @tweet.content %></td>
+            
+            <% if @tweet.favorited_by?(current_user)%> 
+            <td class="fix-tb">
+              <%= link_to tweet_favorites_path(@tweet),method: :delete do %>
+                ♥<%= @tweet.favorites.count %> いいね
+              <% end %>
+            </td>
+            <% else %>
+            <td class="fix-tb">
+              <%= link_to tweet_favorites_path(@tweet),method: :post do %>
+                ♡<%= @tweet.favorites.count %> いいね              
+              <% end %>
+            </td>
+            <% end %>
+
+            
+            <td class="fix-tb">コメント数: <%= @tweet.comments.count %></td>
+            
+            <% if current_user.id == @tweet.user_id %>
+              <td class="fix-tb">
+                <%=link_to "Edit", edit_tweet_path(@tweet.id),class: "btn btn-sm btn-success" %>
+              </td>
+              <td class="fix-tb">
+                <%= link_to "Destroy" ,tweet_path(@tweet.id),method: :delete, class: "btn btn-sm btn-danger","data-confirm" => "本当に削除しますか？" %>
+              </td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+      
+      <% @tweet.comments.each do |comment| %>
+        <table>
+          <tbody>
+            <td>
+              <%= link_to user_path(comment.user.id) do %>
+                <%= comment.user.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= comment.comment %>
+            </td>
+            <td>
+              <% if comment.user == current_user %>
+                <%= link_to "Destroy", tweet_comment_path(comment.tweet_id,comment), method: :delete, class: "btn btn-sm btn-danger" %>
+              <% end %>
+            </td>
+          </tbody>
+        </table>
+      <% end %>
+      
+      
+      <div>
+        <%= form_with(model:[@tweet,@tweet_comment],local: true) do |f| %>
+        <div class="form-group">
+          <%= f.text_area :comment, size: "100x6" %>
+        </div>
+        <div>
+          <%= f.submit "送信" %>
+        </div>
+        <% end %>
+      </div>
+      
+    </div>
+  </div> 
+<% end %>  
+    

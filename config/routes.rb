@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post 'follow/:id' => 'relationships#follow', as: 'follow' 
   post 'unfollow/:id' => 'relationships#unfollow', as: 'unfollow' 
   get '/search', to: 'searchs#search'
+  get 'tweet/:id' => 'tweets#show'
 
   resources :users do
     member do
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
 
   resources :tweets do
     resource :favorites, only: [:create, :destroy]
+    resources :comments, only: [:create, :destroy]
   end  
 
 end

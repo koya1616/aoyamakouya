@@ -36,7 +36,7 @@
             <% @tweets.each do |tweet| %>
                 <li id="tweet-<%= tweet.id %>">
                     <span class="user"><%= link_to tweet.user.name, tweet.user %></span>
-                    <span class="content"><%= tweet.content %></span>
+                    <span class="content"><%= link_to tweet.content,tweet_path(tweet.id) %></span>
 
                     <span>
                         <% if tweet.favorited_by?(current_user) %>
