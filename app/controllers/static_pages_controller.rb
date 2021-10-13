@@ -9,14 +9,6 @@ class StaticPagesController < ApplicationController
   def help
   end
 
-  def show
-    @tweet_new = Tweet.new
-    @tweet = Tweet.find(params[:id])
-    @user = @tweet.user
-    @tweet_comment = TweetComment.new  
-  end
-  
-
   def about
   end
 end

@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
     before_action :logged_in_user, only: [:create, :destroy, :edit, :update]
-    before_action :correct_user,   only: [:destroy, :show, :edit, :update]
+    before_action :correct_user,   only: [:destroy, :edit, :update]
 
     def create
         @tweet = current_user.tweets.build(tweet_params)
